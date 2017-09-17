@@ -41,5 +41,8 @@
     <ClInclude Include="include\functions.h">
       <Filter>Header Files\include</Filter>
     </ClInclude>
+    <ClInclude Include="include\wall.h">
+      <Filter>Header Files\include</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

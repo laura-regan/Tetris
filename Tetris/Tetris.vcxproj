@@ -127,6 +127,7 @@
     <ClInclude Include="include\constants.h" />
     <ClInclude Include="include\functions.h" />
     <ClInclude Include="include\globals.h" />
+    <ClInclude Include="include\wall.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

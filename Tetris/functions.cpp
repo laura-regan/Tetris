@@ -37,7 +37,7 @@ bool Init()
 			}
 			else
 			{
-				SDL_SetRenderDrawColor( gRenderer, 0xFF, 0xFF, 0xFF, 0xFF );
+				SDL_SetRenderDrawColor( gRenderer, 0x00, 0x00, 0x00, 0xFF );
 
 				int initFlags = IMG_INIT_PNG;
 				if ( !( IMG_Init( initFlags ) & IMG_INIT_PNG ) )

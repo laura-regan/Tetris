@@ -14,6 +14,7 @@
 
 #include "include\globals.h"
 #include "include\functions.h"
+#include "include\wall.h"
 
 int main( int agrc, char* args[] )
 {
@@ -25,6 +26,8 @@ int main( int agrc, char* args[] )
 	{
 		SDL_Event e;
 		bool quit = false;
+		Wall wall;
+		wall.SetBlock( 5, 15 );
 
 		while ( !quit )
 		{
@@ -36,8 +39,15 @@ int main( int agrc, char* args[] )
 				}
 			}
 
+			SDL_SetRenderDrawColor( gRenderer, 0xFF, 0xFF, 0xFF, 0xFF );
 			SDL_RenderClear( gRenderer );
+			wall.Render();
+			wall.Physics();
+			
+			
+
 			SDL_RenderPresent( gRenderer );
+			SDL_Delay( 1000 );
 		}
 	}
 
