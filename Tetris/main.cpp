@@ -28,6 +28,9 @@ int main( int agrc, char* args[] )
 		bool quit = false;
 		Wall wall;
 		wall.SetBlock( 5, 15 );
+		wall.SetBlock( 5, 14 );
+		wall.SetBlock( 5, 13 );
+		wall.SetBlock( 5, 12 );
 
 		while ( !quit )
 		{
@@ -47,7 +50,7 @@ int main( int agrc, char* args[] )
 			
 
 			SDL_RenderPresent( gRenderer );
-			SDL_Delay( 1000 );
+			SDL_Delay( 300 );
 		}
 	}
 

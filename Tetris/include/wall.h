@@ -99,7 +99,7 @@ void Wall::Render()
 	{
 		for ( int j = 0; j < WALL_HEIGHT; j++ )
 		{
-			SDL_Rect rect = { i * BLOCK_WIDTH,SCREEN_HEIGHT - j * BLOCK_WIDTH , BLOCK_WIDTH, BLOCK_WIDTH };
+			SDL_Rect rect = { i * BLOCK_WIDTH, SCREEN_HEIGHT - (j + 1) * BLOCK_WIDTH , BLOCK_WIDTH, BLOCK_WIDTH };
 			Blocks[i][j].SetColour();
 			if ( Blocks[i][j].colour == NONE )
 			{
@@ -109,7 +109,7 @@ void Wall::Render()
 			{
 				SDL_RenderFillRect( gRenderer, &rect );
 			}
-			
+
 		}
 	}
 }
@@ -117,17 +117,15 @@ void Wall::Render()
 
 void Wall::Physics()
 {
-	for ( int y = 0; y < WALL_HEIGHT; y++ )
+	for ( int y = 0; y < WALL_HEIGHT - 1; y++ )
 	{
 		for ( int x = 0; x < WALL_WIDTH; x++ )
 		{
 			if ( Blocks[x][y].colour == NONE )
 			{
-				for ( int k = y; k < WALL_HEIGHT - 1; k++ )
-				{
-					Blocks[x][k] = Blocks[x][k + 1];
-					Blocks[x][k + 1].colour = NONE;
-				}
+				Blocks[x][y] = Blocks[x][y + 1];
+				Blocks[x][y + 1].colour = NONE;
+
 			}
 		}
 	}
