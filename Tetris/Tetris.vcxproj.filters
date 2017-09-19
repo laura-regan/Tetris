@@ -44,10 +44,10 @@
     <ClInclude Include="include\functions.h">
       <Filter>Header Files\include</Filter>
     </ClInclude>
-    <ClInclude Include="include\wall.h">
+    <ClInclude Include="include\tetromino.h">
       <Filter>Header Files\include</Filter>
     </ClInclude>
-    <ClInclude Include="include\block.h">
+    <ClInclude Include="include\grid.h">
       <Filter>Header Files\include</Filter>
     </ClInclude>
   </ItemGroup>
