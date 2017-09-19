@@ -3,73 +3,25 @@
 
 #include <vector>
 
-//#include "block.h"
+#include "block.h"
 
 #include "constants.h"
 #include "globals.h"
 
 
-enum {
-	NONE,
-	RED,
-	ORANGE,
-	YELLOW,
-	GREEN,
-	BLUE,
-	MAGENTA,
-	PURPLE,
-	NUMBER_COLOURS
-} COLOURS;
-
-
-
-struct Block
-{
-	int colour = NONE;
-
-	void SetColour()
-	{
-		switch ( colour )
-		{
-			case RED:
-				SDL_SetRenderDrawColor( gRenderer, 255, 0, 0, 0xFF );
-				break;
-			case ORANGE:
-				SDL_SetRenderDrawColor( gRenderer, 255, 31, 51, 0xFF );
-				break;
-			case YELLOW:
-				SDL_SetRenderDrawColor( gRenderer, 255, 255, 0, 0xFF );
-				break;
-			case GREEN:
-				SDL_SetRenderDrawColor( gRenderer, 0, 255, 0, 0xFF );
-				break;
-			case BLUE:
-				SDL_SetRenderDrawColor( gRenderer, 0, 0, 255, 0xFF );
-				break;
-			case MAGENTA:
-				SDL_SetRenderDrawColor( gRenderer, 255, 51, 204, 0xFF );
-				break;
-			case PURPLE:
-				SDL_SetRenderDrawColor( gRenderer, 153, 51, 153, 0xFF );
-				break;
-			default:
-				SDL_SetRenderDrawColor( gRenderer, 0x00, 0x00, 0x00, 0xFF );
-				break;
-		}
-
-	}
-
-};
-
-
 class Wall
 {
 public:
-	static const int BLOCK_WIDTH = 40;
-	static const int WALL_WIDTH = SCREEN_WIDTH / BLOCK_WIDTH;
-	static const int WALL_HEIGHT = SCREEN_HEIGHT / BLOCK_WIDTH;
+
+	static const int WALL_WIDTH = 12;
+	static const int WALL_HEIGHT = WALL_WIDTH * 4 / 3;
+	static const int BLOCK_WIDTH = SCREEN_WIDTH / WALL_WIDTH;
+	static const int WALL_BUFFER = 4;
+	
 
 	Wall();
+
+	void PlaceTetris( int colour );
 
 	void Render();
 
@@ -89,7 +41,13 @@ private:
 
 Wall::Wall()
 {
-	Blocks.resize( WALL_WIDTH, std::vector<Block>( WALL_HEIGHT ) );
+	Blocks.resize( WALL_WIDTH, std::vector<Block>( WALL_HEIGHT + WALL_BUFFER) );
+}
+
+
+void Wall::PlaceTetris(int colour)
+{
+
 }
 
 
@@ -117,7 +75,7 @@ void Wall::Render()
 
 void Wall::Physics()
 {
-	for ( int y = 0; y < WALL_HEIGHT - 1; y++ )
+	for ( int y = 0; y < WALL_HEIGHT + WALL_BUFFER - 1; y++ )
 	{
 		for ( int x = 0; x < WALL_WIDTH; x++ )
 		{

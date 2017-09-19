@@ -44,5 +44,8 @@
     <ClInclude Include="include\wall.h">
       <Filter>Header Files\include</Filter>
     </ClInclude>
+    <ClInclude Include="include\block.h">
+      <Filter>Header Files\include</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

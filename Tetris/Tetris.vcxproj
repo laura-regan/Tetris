@@ -124,6 +124,7 @@
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\block.h" />
     <ClInclude Include="include\constants.h" />
     <ClInclude Include="include\functions.h" />
     <ClInclude Include="include\globals.h" />
