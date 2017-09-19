@@ -73,3 +73,39 @@ void Close()
 	IMG_Quit();
 	SDL_Quit();
 }
+
+
+
+void SetRenderDrawColour(int colour)
+{
+	switch ( colour )
+	{
+		case RED:
+			SDL_SetRenderDrawColor( gRenderer, 255, 0, 0, 0xFF );
+			break;
+		case ORANGE:
+			SDL_SetRenderDrawColor( gRenderer, 255, 31, 51, 0xFF );
+			break;
+		case YELLOW:
+			SDL_SetRenderDrawColor( gRenderer, 255, 255, 0, 0xFF );
+			break;
+		case GREEN:
+			SDL_SetRenderDrawColor( gRenderer, 0, 255, 0, 0xFF );
+			break;
+		case BLUE:
+			SDL_SetRenderDrawColor( gRenderer, 0, 0, 255, 0xFF );
+			break;
+		case MAGENTA:
+			SDL_SetRenderDrawColor( gRenderer, 255, 51, 204, 0xFF );
+			break;
+		case PURPLE:
+			SDL_SetRenderDrawColor( gRenderer, 153, 51, 153, 0xFF );
+			break;
+		case WHITE:
+			SDL_SetRenderDrawColor( gRenderer, 0xFF, 0xFF, 0xFF, 0xFF );
+			break;
+		default:
+			SDL_SetRenderDrawColor( gRenderer, 0x00, 0x00, 0x00, 0xFF );
+			break;
+	}
+}

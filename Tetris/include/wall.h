@@ -7,6 +7,7 @@
 
 #include "constants.h"
 #include "globals.h"
+#include "functions.h"
 
 
 class Wall
@@ -17,11 +18,10 @@ public:
 	static const int WALL_HEIGHT = WALL_WIDTH * 4 / 3;
 	static const int BLOCK_WIDTH = SCREEN_WIDTH / WALL_WIDTH;
 	static const int WALL_BUFFER = 4;
-	
 
 	Wall();
 
-	void PlaceTetris( int colour );
+	void CreateTetromino( int colour );
 
 	void Render();
 
@@ -31,9 +31,10 @@ public:
 
 	void SetBlock( int x, int j );
 
-
 private:
 	std::vector< std::vector<Block>> Blocks;
+
+	Block* FBlock = new Block();
 
 	void RemoveRow( int row );
 };
@@ -41,15 +42,85 @@ private:
 
 Wall::Wall()
 {
-	Blocks.resize( WALL_WIDTH, std::vector<Block>( WALL_HEIGHT + WALL_BUFFER) );
+	Blocks.resize( WALL_WIDTH, std::vector<Block>( WALL_HEIGHT + WALL_BUFFER ) );
 }
 
 
-void Wall::PlaceTetris(int colour)
+void Wall::CreateTetromino( int colour )
 {
+	//Block a = *new Block[colour];
 
+	switch ( colour )
+	{
+		case RED: // I
+			Blocks[WALL_WIDTH / 2][WALL_HEIGHT - 5].colour = colour;
+			
+			Blocks[WALL_WIDTH / 2][WALL_HEIGHT - 4].colour = colour;
+			
+			Blocks[WALL_WIDTH / 2][WALL_HEIGHT - 3].colour = colour;
+			
+			Blocks[WALL_WIDTH / 2][WALL_HEIGHT - 2].colour = colour;
+			break;
+		case ORANGE: // L
+			Blocks[WALL_WIDTH / 2][WALL_HEIGHT - 5].colour = colour;
+			
+			Blocks[WALL_WIDTH / 2][WALL_HEIGHT - 4].colour = colour;;
+			
+			Blocks[WALL_WIDTH / 2 + 1][WALL_HEIGHT - 4].colour = colour;;
+			
+			Blocks[WALL_WIDTH / 2 + 1][WALL_HEIGHT - 4].colour = colour;;
+			break;
+		case YELLOW: // O
+			Blocks[WALL_WIDTH / 2][WALL_HEIGHT - 5].colour = colour;;
+			
+			Blocks[WALL_WIDTH / 2][WALL_HEIGHT - 4].colour = colour;;
+			
+			Blocks[WALL_WIDTH / 2 + 1][WALL_HEIGHT - 5].colour = colour;;
+			
+			Blocks[WALL_WIDTH / 2 + 1][WALL_HEIGHT - 4].colour = colour;;
+			break;
+		case GREEN: // Z
+			Blocks[WALL_WIDTH / 2][WALL_HEIGHT - 5].colour = colour;;
+			
+			Blocks[WALL_WIDTH / 2 - 1][WALL_HEIGHT - 5].colour = colour;;
+			
+			Blocks[WALL_WIDTH / 2 - 1][WALL_HEIGHT - 4].colour = colour;;
+			
+			Blocks[WALL_WIDTH / 2 - 2][WALL_HEIGHT - 4].colour = colour;;
+			break;
+		case BLUE: // S
+			Blocks[WALL_WIDTH / 2][WALL_HEIGHT - 5].colour = colour;;
+			
+			Blocks[WALL_WIDTH / 2 + 1][WALL_HEIGHT - 5].colour = colour;;
+			
+			Blocks[WALL_WIDTH / 2 + 1][WALL_HEIGHT - 4].colour = colour;;
+			
+			Blocks[WALL_WIDTH / 2 + 2][WALL_HEIGHT - 4].colour = colour;;
+			break;
+		case MAGENTA: //J
+			Blocks[WALL_WIDTH / 2][WALL_HEIGHT - 5].colour = colour;;
+			
+			Blocks[WALL_WIDTH / 2][WALL_HEIGHT - 4].colour = colour;;
+			
+			Blocks[WALL_WIDTH / 2 - 1][WALL_HEIGHT - 4].colour = colour;;
+			
+			Blocks[WALL_WIDTH / 2 - 2][WALL_HEIGHT - 4].colour = colour;;
+			break;
+		case PURPLE: //T
+			Blocks[WALL_WIDTH / 2][WALL_HEIGHT - 5].colour = colour;;
+			
+			Blocks[WALL_WIDTH / 2][WALL_HEIGHT - 4].colour = colour;;
+			
+			Blocks[WALL_WIDTH / 2 + 1][WALL_HEIGHT - 4].colour = colour;;
+			
+			Blocks[WALL_WIDTH / 2 - 1][WALL_HEIGHT - 4].colour = colour;;
+			break;
+		default:
+			break;
+	}
+
+	//delete &a;
 }
-
 
 void Wall::Render()
 {
@@ -57,17 +128,14 @@ void Wall::Render()
 	{
 		for ( int j = 0; j < WALL_HEIGHT; j++ )
 		{
-			SDL_Rect rect = { i * BLOCK_WIDTH, SCREEN_HEIGHT - (j + 1) * BLOCK_WIDTH , BLOCK_WIDTH, BLOCK_WIDTH };
-			Blocks[i][j].SetColour();
-			if ( Blocks[i][j].colour == NONE )
+			SDL_Rect rect = { i * BLOCK_WIDTH, SCREEN_HEIGHT - ( j + 1 ) * BLOCK_WIDTH , BLOCK_WIDTH, BLOCK_WIDTH };
+			if ( Blocks[i][j].colour != NONE )
 			{
+				SetRenderDrawColour( Blocks[i][j].colour );
+				SDL_RenderFillRect( gRenderer, &rect );
+				SetRenderDrawColour( NONE );
 				SDL_RenderDrawRect( gRenderer, &rect );
 			}
-			else
-			{
-				SDL_RenderFillRect( gRenderer, &rect );
-			}
-
 		}
 	}
 }

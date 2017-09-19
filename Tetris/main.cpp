@@ -16,6 +16,7 @@
 #include "include\functions.h"
 #include "include\wall.h"
 
+
 int main( int agrc, char* args[] )
 {
 	if ( !Init() )
@@ -27,10 +28,9 @@ int main( int agrc, char* args[] )
 		SDL_Event e;
 		bool quit = false;
 		Wall wall;
-		wall.SetBlock( 5, 15 );
-		wall.SetBlock( 5, 14 );
-		wall.SetBlock( 5, 13 );
-		wall.SetBlock( 5, 12 );
+		
+		wall.CreateTetromino( PURPLE );
+		wall.CreateTetromino( RED );
 
 		while ( !quit )
 		{

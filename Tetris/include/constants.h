@@ -5,4 +5,18 @@
 const int SCREEN_WIDTH = 400;
 const int SCREEN_HEIGHT = SCREEN_WIDTH * 4 / 3;
 
+static enum {
+	NONE,
+	RED,
+	ORANGE,
+	YELLOW,
+	GREEN,
+	BLUE,
+	MAGENTA,
+	PURPLE,
+	WHITE,
+	NUMBER_COLOURS
+} COLOURS;
+
+
 #endif

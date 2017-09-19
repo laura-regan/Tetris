@@ -3,6 +3,8 @@
 
 bool Init();
 void Close();
+void SetRenderDrawColour( int colour );
+
 
 
 #endif
