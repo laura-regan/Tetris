@@ -15,9 +15,6 @@ class Grid
 {
 public:
 
-	static const int GRID_WIDTH = 12;
-	static const int GRID_HEIGHT = GRID_WIDTH * 4 / 3;
-	static const int GRID_BUFFER = 4;
 	static const int BLOCK_WIDTH = SCREEN_WIDTH / GRID_WIDTH;
 
 	Grid();
@@ -48,7 +45,7 @@ Grid::Grid()
 
 void Grid::CreateTetromino( int shape )
 {
-	LTetromino[numTetrominos] = new Tetromino( shape );
+	LTetromino[numTetrominos] = new Tetromino( shape, GRID_WIDTH / 2, GRID_HEIGHT / 2);
 	playerTetromino = LTetromino[numTetrominos];
 	numTetrominos++;
 }

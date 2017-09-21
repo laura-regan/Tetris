@@ -109,3 +109,10 @@ void SetRenderDrawColour(int colour)
 			break;
 	}
 }
+
+void Swap( int &a, int &b )
+{
+	int aux = a;
+	a = b;
+	b = aux;
+}

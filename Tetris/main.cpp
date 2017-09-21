@@ -14,7 +14,8 @@
 
 #include "include\globals.h"
 #include "include\functions.h"
-#include "include\wall.h"
+#include "include\grid.h"
+//#include "include\tetromino.h"
 
 
 int main( int agrc, char* args[] )
@@ -27,10 +28,10 @@ int main( int agrc, char* args[] )
 	{
 		SDL_Event e;
 		bool quit = false;
-		Wall wall;
+		Grid grid;
+
+		grid.CreateTetromino( L );
 		
-		wall.CreateTetromino( PURPLE );
-		wall.CreateTetromino( RED );
 
 		while ( !quit )
 		{
@@ -44,13 +45,12 @@ int main( int agrc, char* args[] )
 
 			SDL_SetRenderDrawColor( gRenderer, 0xFF, 0xFF, 0xFF, 0xFF );
 			SDL_RenderClear( gRenderer );
-			wall.Render();
-			wall.Physics();
+			grid.Render();
+			
 			
 			
 
 			SDL_RenderPresent( gRenderer );
-			SDL_Delay( 300 );
 		}
 	}
 
