@@ -25,6 +25,8 @@ public:
 
 	void Physics();
 
+	void Input( SDL_Event e );
+
 	void FindEmptyRow();
 
 private:
@@ -56,6 +58,37 @@ void Grid::Render()
 	for ( int i = 0; i < numTetrominos; i++ )
 	{
 		LTetromino[i]->Render();
+	}
+}
+
+
+void Grid::Input( SDL_Event e )
+{
+	if ( e.type == SDL_KEYDOWN )
+	{
+		switch ( e.key.keysym.sym )
+		{
+			case SDLK_LEFT:
+				LTetromino[numTetrominos - 1]->Move( LEFT );
+				if ( LTetromino[numTetrominos - 1]->IsOutOfBounds() )
+					LTetromino[numTetrominos - 1]->Move( RIGHT );
+				break;
+			case SDLK_RIGHT:
+				LTetromino[numTetrominos - 1]->Move( RIGHT );
+				if ( LTetromino[numTetrominos - 1]->IsOutOfBounds() )
+					LTetromino[numTetrominos - 1]->Move( LEFT );
+				break;
+			case SDLK_a:
+				LTetromino[numTetrominos - 1]->Rotate( LEFT );
+				if ( LTetromino[numTetrominos - 1]->IsOutOfBounds() )
+					LTetromino[numTetrominos - 1]->Move( RIGHT );
+				break;
+			case SDLK_d:
+				LTetromino[numTetrominos - 1]->Rotate( RIGHT );
+				if ( LTetromino[numTetrominos - 1]->IsOutOfBounds() )
+					LTetromino[numTetrominos - 1]->Move( LEFT );
+				break;
+		}
 	}
 }
 

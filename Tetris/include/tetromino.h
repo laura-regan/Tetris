@@ -43,7 +43,7 @@ struct Point
 		return ( x == p.x && y == p.y );
 	}
 
-	void RotateLeft()
+	void RotateRight()
 	{
 		if ( a >= 0 && b >= 0 )
 		{
@@ -67,7 +67,7 @@ struct Point
 		}
 	}
 
-	void RotateRight()
+	void RotateLeft()
 	{
 		if ( a >= 0 && b >= 0 )
 		{
@@ -203,7 +203,7 @@ Tetromino::Tetromino( int shape, int a, int b )
 			printf( "Error: Unknown shape id passed." );
 			break;
 	}
-
+	Rotate( RIGHT );
 }
 
 
@@ -220,8 +220,7 @@ void Tetromino::Render()
 		SDL_RenderDrawRect( gRenderer, &block );
 	}
 
-	Rotate( RIGHT );
-	SDL_Delay( 100 );
+	
 }
 
 
@@ -229,13 +228,13 @@ void Tetromino::Rotate( DIRECTIONS dir )
 {
 	for ( unsigned i = 0; i < 4; i++ )
 	{
-		if ( dir == RIGHT )
-		{
-			LPoint[i].RotateRight();
-		}
-		else if ( dir == LEFT )
+		if ( dir == LEFT )
 		{
 			LPoint[i].RotateLeft();
+		}
+		else if ( dir == RIGHT )
+		{
+			LPoint[i].RotateRight();
 		}
 
 		LPoint[i].x = LPoint[0].x + LPoint[i].a;
@@ -288,8 +287,8 @@ bool Tetromino::IsOutOfBounds()
 {
 	for ( int i = 0; i < LPoint.size(); i++ )
 	{
-		if ( LPoint[i].x < 0 || LPoint[i].x >= GRID_WIDTH ||
-			 LPoint[i].y < 0 || LPoint[i].y >= GRID_HEIGHT + GRID_BUFFER )
+		if ( LPoint[i].x < 0 || LPoint[i].x > GRID_WIDTH - 1 ||
+			 LPoint[i].y < 0 || LPoint[i].y > GRID_HEIGHT + GRID_BUFFER )
 		{
 			return true;
 		}

@@ -27,12 +27,12 @@ int main( int agrc, char* args[] )
 	else
 	{
 		SDL_Event e;
-		bool quit = false;
+		
 		Grid grid;
 
-		grid.CreateTetromino( L );
+		grid.CreateTetromino( Z );
 		
-
+		bool quit = false;
 		while ( !quit )
 		{
 			while ( SDL_PollEvent( &e ) > 0 )
@@ -41,6 +41,7 @@ int main( int agrc, char* args[] )
 				{
 					quit = true;
 				}
+				grid.Input( e );
 			}
 
 			SDL_SetRenderDrawColor( gRenderer, 0xFF, 0xFF, 0xFF, 0xFF );
