@@ -22,9 +22,6 @@ enum DIRECTIONS
 };
 
 
-struct Coord { int x, y; };
-Coord Quads[] = { {1,1}, {-1,1}, {-1,-1}, {1,-1} };
-
 struct Point
 {
 	int x, y;
@@ -90,6 +87,7 @@ public:
 
 	static const int BLOCK_WIDTH = 40;
 
+	Tetromino() {};
 
 	Tetromino( int shape, int a, int b );
 
@@ -101,7 +99,8 @@ public:
 
 	bool IsOverlapping( Tetromino t );
 
-	bool IsOutOfBounds();
+	bool IsOutOfBoundsX();
+	bool IsOutOfBoundsY();
 
 private:
 	int shape;
@@ -241,10 +240,10 @@ void Tetromino::Move( DIRECTIONS dir )
 	switch ( dir )
 	{
 		case UP:
-			for ( int i = 0; i < LPoint.size(); i++ ) LPoint[i].y++;
+			for ( int i = 0; i < LPoint.size(); i++ ) LPoint[i].y--;
 			break;
 		case DOWN:
-			for ( int i = 0; i < LPoint.size(); i++ ) LPoint[i].y--;
+			for ( int i = 0; i < LPoint.size(); i++ ) LPoint[i].y++;
 			break;
 		case LEFT:
 			for ( int i = 0; i < LPoint.size(); i++ ) LPoint[i].x--;
@@ -276,12 +275,11 @@ bool Tetromino::IsOverlapping( Tetromino t )
 }
 
 
-bool Tetromino::IsOutOfBounds()
+bool Tetromino::IsOutOfBoundsX()
 {
 	for ( int i = 0; i < LPoint.size(); i++ )
 	{
-		if ( LPoint[i].x < 0 || LPoint[i].x > GRID_WIDTH - 1 ||
-			 LPoint[i].y < 0 || LPoint[i].y > GRID_HEIGHT + GRID_BUFFER )
+		if ( LPoint[i].x < 0 || LPoint[i].x > GRID_WIDTH - 1 || LPoint[i].y >= GRID_HEIGHT ) 
 		{
 			return true;
 		}
@@ -290,6 +288,33 @@ bool Tetromino::IsOutOfBounds()
 	return false;
 }
 
+bool Tetromino::IsOutOfBoundsY()
+{
+	for ( int i = 0; i < LPoint.size(); i++ )
+	{
+		if (  LPoint[i].y >= GRID_HEIGHT )
+		{
+			return true;
+		}
+	}
+
+	return false;
+}
+
+/*
+Tetromino::Tetromino(Tetromino* t)
+{
+	this->shape = t->shape;
+	LPoint.resize( 4 );
+
+	block = { 0, 0, BLOCK_WIDTH, BLOCK_WIDTH };
+
+	for ( int i = 0; i < t->LPoint.size(); i++ )
+	{
+		LPoint[i] = t->LPoint[i];
+	}
+}
+*/
 
 #endif
 

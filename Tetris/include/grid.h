@@ -2,6 +2,8 @@
 #define GRID_H
 
 #include <vector>
+#include <stdlib.h>
+#include <time.h>
 
 #include "block.h"
 
@@ -25,31 +27,35 @@ public:
 
 	void Physics();
 
+
+
 	void Input( SDL_Event e );
 
 	void FindEmptyRow();
 
 private:
-	std::vector<Tetromino* > LTetromino;
+	std::vector<Tetromino > LTetromino;
 	int numTetrominos;
 
 	Tetromino* playerTetromino;
 
 	void RemoveRow();
+
+	bool HasCollided( int index );
 };
 
 Grid::Grid()
 {
-	LTetromino.resize( GRID_WIDTH * ( GRID_HEIGHT + GRID_BUFFER ) / 4 * 2 );
+	LTetromino.resize(GRID_WIDTH * GRID_HEIGHT * 2);
 	int numTetrominos = 0;
 }
 
 
 void Grid::CreateTetromino( int shape )
 {
-	LTetromino[numTetrominos] = new Tetromino( shape, GRID_WIDTH / 2, GRID_HEIGHT / 2);
-	playerTetromino = LTetromino[numTetrominos];
+	LTetromino[numTetrominos] = Tetromino( shape, GRID_WIDTH / 2, 4 );
 	numTetrominos++;
+	printf( "f" );
 }
 
 
@@ -57,7 +63,7 @@ void Grid::Render()
 {
 	for ( int i = 0; i < numTetrominos; i++ )
 	{
-		LTetromino[i]->Render();
+		LTetromino[i].Render();
 	}
 }
 
@@ -69,24 +75,24 @@ void Grid::Input( SDL_Event e )
 		switch ( e.key.keysym.sym )
 		{
 			case SDLK_LEFT:
-				LTetromino[numTetrominos - 1]->Move( LEFT );
-				if ( LTetromino[numTetrominos - 1]->IsOutOfBounds() )
-					LTetromino[numTetrominos - 1]->Move( RIGHT );
+				LTetromino[numTetrominos - 1].Move( LEFT );
+				if ( LTetromino[numTetrominos - 1].IsOutOfBoundsX() )
+					LTetromino[numTetrominos - 1].Move( RIGHT );
 				break;
 			case SDLK_RIGHT:
-				LTetromino[numTetrominos - 1]->Move( RIGHT );
-				if ( LTetromino[numTetrominos - 1]->IsOutOfBounds() )
-					LTetromino[numTetrominos - 1]->Move( LEFT );
+				LTetromino[numTetrominos - 1].Move( RIGHT );
+				if ( LTetromino[numTetrominos - 1].IsOutOfBoundsX() )
+					LTetromino[numTetrominos - 1].Move( LEFT );
 				break;
 			case SDLK_a:
-				LTetromino[numTetrominos - 1]->Rotate( LEFT );
-				if ( LTetromino[numTetrominos - 1]->IsOutOfBounds() )
-					LTetromino[numTetrominos - 1]->Rotate( RIGHT );
+				LTetromino[numTetrominos - 1].Rotate( LEFT );
+				if ( LTetromino[numTetrominos - 1].IsOutOfBoundsX() )
+					LTetromino[numTetrominos - 1].Rotate( RIGHT );
 				break;
 			case SDLK_d:
-				LTetromino[numTetrominos - 1]->Rotate( RIGHT );
-				if ( LTetromino[numTetrominos - 1]->IsOutOfBounds() )
-					LTetromino[numTetrominos - 1]->Rotate( LEFT );
+				LTetromino[numTetrominos - 1].Rotate( RIGHT );
+				if ( LTetromino[numTetrominos - 1].IsOutOfBoundsX() )
+					LTetromino[numTetrominos - 1].Rotate( LEFT );
 				break;
 		}
 	}
@@ -95,13 +101,52 @@ void Grid::Input( SDL_Event e )
 
 void Grid::Physics()
 {
+	std::vector<bool> hasMoved( 10 );
+	
 	for ( int i = 0; i < numTetrominos; i++ )
 	{
-		for ( int j = i + 1; j < numTetrominos; j++ )
+		
+		if ( !hasMoved[i] )
 		{
-
+			LTetromino[i].Move( DOWN );
+			if ( LTetromino[i].IsOutOfBoundsY() )
+			{
+				LTetromino[i].Move( UP );
+				if ( i == numTetrominos - 1 )
+				{
+					srand( time( NULL ) );
+					CreateTetromino( rand() % 6 );
+				}
+			}
+			else if ( HasCollided( i ) )
+			{
+				LTetromino[i].Move( UP );
+				if ( i == numTetrominos - 1 )
+				{
+					srand( time( NULL ) );
+					CreateTetromino( rand() % 6 );
+				}
+			}
+			else
+			{
+				hasMoved[i] = true;
+			}
 		}
 	}
+}
+
+
+bool Grid::HasCollided( int index )
+{
+	int i = 0;
+	while ( i < numTetrominos && !LTetromino[index].IsOverlapping( LTetromino[i] ) )
+	{
+		i++;
+		if ( i == index )
+			i++;
+	}
+
+	return i < numTetrominos - 1;
 }
 
 
