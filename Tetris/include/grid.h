@@ -81,12 +81,12 @@ void Grid::Input( SDL_Event e )
 			case SDLK_a:
 				LTetromino[numTetrominos - 1]->Rotate( LEFT );
 				if ( LTetromino[numTetrominos - 1]->IsOutOfBounds() )
-					LTetromino[numTetrominos - 1]->Move( RIGHT );
+					LTetromino[numTetrominos - 1]->Rotate( RIGHT );
 				break;
 			case SDLK_d:
 				LTetromino[numTetrominos - 1]->Rotate( RIGHT );
 				if ( LTetromino[numTetrominos - 1]->IsOutOfBounds() )
-					LTetromino[numTetrominos - 1]->Move( LEFT );
+					LTetromino[numTetrominos - 1]->Rotate( LEFT );
 				break;
 		}
 	}

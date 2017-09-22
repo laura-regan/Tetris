@@ -6,20 +6,12 @@
 #include <vector>
 #include <cmath>
 
+#include "constants.h"
 #include "globals.h"
 #include "functions.h"
 
 
-enum
-{
-	I,
-	J,
-	L,
-	O,
-	S,
-	T,
-	Z
-} SHAPES;
+
 
 enum DIRECTIONS
 {
@@ -120,6 +112,7 @@ private:
 
 Tetromino::Tetromino( int shape, int a, int b )
 {
+	this->shape = shape;
 	LPoint.resize( 4 );
 	block = { 0, 0, BLOCK_WIDTH, BLOCK_WIDTH };
 
@@ -214,7 +207,7 @@ void Tetromino::Render()
 		block.x = LPoint[i].x * BLOCK_WIDTH;
 		block.y = LPoint[i].y * BLOCK_WIDTH;
 
-		SetRenderDrawColour( 1 );
+		SetRenderDrawColour( shape );
 		SDL_RenderFillRect( gRenderer, &block );
 		SetRenderDrawColour( 10 );
 		SDL_RenderDrawRect( gRenderer, &block );

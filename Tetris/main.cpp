@@ -30,7 +30,7 @@ int main( int agrc, char* args[] )
 		
 		Grid grid;
 
-		grid.CreateTetromino( Z );
+		grid.CreateTetromino( S );
 		
 		bool quit = false;
 		while ( !quit )

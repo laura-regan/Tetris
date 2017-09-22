@@ -6,13 +6,14 @@
 const int RATIO_H = 4;
 const int RATIO_W = 4;
 const int SCREEN_WIDTH = 400;
-const int SCREEN_HEIGHT = SCREEN_WIDTH * RATIO_H / RATIO_W;
+const int SCREEN_HEIGHT = 800;//SCREEN_WIDTH * RATIO_H / RATIO_W;
 
 static const int GRID_WIDTH = 10;
-static const int GRID_HEIGHT = GRID_WIDTH * 4 / 4;
+static const int GRID_HEIGHT = 20;
 static const int GRID_BUFFER = 4;
 
-static enum {
+static enum COLOUR
+{
 	NONE,
 	RED,
 	ORANGE,
@@ -23,7 +24,18 @@ static enum {
 	PURPLE,
 	WHITE,
 	NUMBER_COLOURS
-} COLOURS;
+};
+
+static enum SHAPE
+{
+	I = RED,
+	J,
+	L,
+	O,
+	S,
+	T,
+	Z
+};
 
 
 #endif
