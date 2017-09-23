@@ -94,11 +94,9 @@ public:
 	void Render();
 
 	void Rotate( DIRECTIONS dir );
-
 	void Move( DIRECTIONS dir );
 
 	bool IsOverlapping( Tetromino t );
-
 	bool IsOutOfBoundsX();
 	bool IsOutOfBoundsY();
 
@@ -131,7 +129,7 @@ Tetromino::Tetromino( int shape, int a, int b )
 			LPoint[3].a = 0;
 			LPoint[3].b = 3;
 			break;
-		case J:
+		case L:
 			LPoint[1].a = 0;
 			LPoint[1].b = -1;
 
@@ -141,7 +139,7 @@ Tetromino::Tetromino( int shape, int a, int b )
 			LPoint[3].a = -2;
 			LPoint[3].b = 0;
 			break;
-		case L:
+		case J:
 			LPoint[1].a = 0;
 			LPoint[1].b = -1;
 
@@ -206,13 +204,15 @@ void Tetromino::Render()
 		block.x = LPoint[i].x * BLOCK_WIDTH;
 		block.y = LPoint[i].y * BLOCK_WIDTH;
 
-		SetRenderDrawColour( shape );
-		SDL_RenderFillRect( gRenderer, &block );
 		SetRenderDrawColour( 10 );
-		SDL_RenderDrawRect( gRenderer, &block );
-	}
+		SDL_RenderFillRect( gRenderer, &block );
 
-	
+		SDL_Rect rect = { (int) ( block.x + BLOCK_WIDTH * 0.1 ), (int) ( block.y + BLOCK_WIDTH * 0.1 ), BLOCK_WIDTH * 0.8, BLOCK_WIDTH * 0.8 };
+
+		SetRenderDrawColour( shape );
+		SDL_RenderFillRect( gRenderer, &rect );
+		
+	}	
 }
 
 

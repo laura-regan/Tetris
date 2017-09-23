@@ -30,7 +30,7 @@ int main( int agrc, char* args[] )
 		
 		Grid grid;
 
-		grid.CreateTetromino( S );
+		grid.CreateTetromino( Z );
 		
 		unsigned currentTime = SDL_GetTicks();
 		unsigned lastTime = 0;
@@ -56,10 +56,10 @@ int main( int agrc, char* args[] )
 			SDL_RenderClear( gRenderer );
 			grid.Render();
 			
-			//SDL_Delay( 100000 );
+			
 
 			physicsPeriod += delta;
-			if ( physicsPeriod > 500 )
+			if ( physicsPeriod > 350 )
 			{
 				grid.Physics();
 				physicsPeriod = 0;

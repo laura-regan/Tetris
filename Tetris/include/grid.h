@@ -4,6 +4,7 @@
 #include <vector>
 #include <stdlib.h>
 #include <time.h>
+#include <random>
 
 #include "block.h"
 
@@ -12,6 +13,9 @@
 #include "functions.h"
 #include "tetromino.h"
 
+
+std::default_random_engine rng;
+std::uniform_int_distribution<int> dist( 0, 6 );
 
 class Grid
 {
@@ -46,16 +50,15 @@ private:
 
 Grid::Grid()
 {
-	LTetromino.resize(GRID_WIDTH * GRID_HEIGHT * 2);
+	LTetromino.resize( GRID_WIDTH * GRID_HEIGHT * 2 );
 	int numTetrominos = 0;
 }
 
 
 void Grid::CreateTetromino( int shape )
 {
-	LTetromino[numTetrominos] = Tetromino( shape, GRID_WIDTH / 2, 4 );
+	LTetromino[numTetrominos] = Tetromino( shape, GRID_WIDTH / 2, -GRID_BUFFER );
 	numTetrominos++;
-	printf( "f" );
 }
 
 
@@ -101,11 +104,14 @@ void Grid::Input( SDL_Event e )
 
 void Grid::Physics()
 {
-	std::vector<bool> hasMoved( 10 );
-	
+	std::vector<bool> hasMoved;
+	if ( numTetrominos >= hasMoved.capacity() )
+	{
+		hasMoved.resize( numTetrominos * 2 );
+	}
+
 	for ( int i = 0; i < numTetrominos; i++ )
 	{
-		
 		if ( !hasMoved[i] )
 		{
 			LTetromino[i].Move( DOWN );
@@ -115,7 +121,7 @@ void Grid::Physics()
 				if ( i == numTetrominos - 1 )
 				{
 					srand( time( NULL ) );
-					CreateTetromino( rand() % 6 );
+					CreateTetromino( dist( rng ) );
 				}
 			}
 			else if ( HasCollided( i ) )
@@ -124,7 +130,7 @@ void Grid::Physics()
 				if ( i == numTetrominos - 1 )
 				{
 					srand( time( NULL ) );
-					CreateTetromino( rand() % 6 );
+					CreateTetromino( dist( rng ) );
 				}
 			}
 			else
@@ -133,6 +139,8 @@ void Grid::Physics()
 			}
 		}
 	}
+
+	hasMoved.clear();
 }
 
 

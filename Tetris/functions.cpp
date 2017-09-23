@@ -80,25 +80,25 @@ void SetRenderDrawColour(int colour)
 {
 	switch ( colour )
 	{
-		case RED:
-			SDL_SetRenderDrawColor( gRenderer, 255, 0, 0, 0xFF );
+		case I: // RED
+			SDL_SetRenderDrawColor( gRenderer, 255, 0, 0, 0xFF ); 
 			break;
-		case ORANGE:
+		case J: // Orange
 			SDL_SetRenderDrawColor( gRenderer, 255, 31, 51, 0xFF );
 			break;
-		case YELLOW:
+		case O: // YELLOW
 			SDL_SetRenderDrawColor( gRenderer, 255, 255, 0, 0xFF );
 			break;
-		case GREEN:
+		case S:
 			SDL_SetRenderDrawColor( gRenderer, 0, 255, 0, 0xFF );
 			break;
-		case BLUE:
+		case L:
 			SDL_SetRenderDrawColor( gRenderer, 0, 0, 255, 0xFF );
 			break;
-		case MAGENTA:
+		case T: //MAGENTA
 			SDL_SetRenderDrawColor( gRenderer, 255, 51, 204, 0xFF );
 			break;
-		case PURPLE:
+		case Z: //PURPLE
 			SDL_SetRenderDrawColor( gRenderer, 153, 51, 153, 0xFF );
 			break;
 		case WHITE:
