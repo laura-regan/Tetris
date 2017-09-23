@@ -219,7 +219,7 @@ Tetromino::Tetromino( int shape, int a, int b )
 void Tetromino::Render()
 {
 	SDL_Rect rect = { SIDE_BORDER, TOP_BORDER, GRID_WIDTH_PIXELS, GRID_HEIGHT_PIXELS};
-	SetRenderDrawColour( shape );
+	SetRenderDrawColour( BLACK );
 	SDL_RenderFillRect( gRenderer, &rect );
 
 	for ( int i = 0; i < LPoint.size(); i++ )
