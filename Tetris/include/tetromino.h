@@ -84,21 +84,40 @@ struct Point
 class Tetromino
 {
 public:
-
+	
 	static const int BLOCK_WIDTH = 40;
 
+	/// Constructors 
 	Tetromino() {};
 
 	Tetromino( int shape, int a, int b );
 
+	/// Rendering
 	void Render();
 
+	/// Movement
 	void Rotate( DIRECTIONS dir );
 	void Move( DIRECTIONS dir );
 
+	/// Collision detection
 	bool IsOverlapping( Tetromino t );
 	bool IsOutOfBoundsX();
 	bool IsOutOfBoundsY();
+
+	/// Get functions
+	int GetShape()
+	{
+		return shape;
+	}
+
+	std::vector<Point> GetPoints()
+	{
+		return LPoint;
+	}
+
+	/// Query and Modify shape functions
+	int NumPointsInRow( int row );
+	void RemovePoint( int index );
 
 private:
 	int shape;
@@ -199,17 +218,21 @@ Tetromino::Tetromino( int shape, int a, int b )
 
 void Tetromino::Render()
 {
+	SDL_Rect rect = { SIDE_BORDER, TOP_BORDER, GRID_WIDTH_PIXELS, GRID_HEIGHT_PIXELS};
+	SetRenderDrawColour( shape );
+	SDL_RenderFillRect( gRenderer, &rect );
+
 	for ( int i = 0; i < LPoint.size(); i++ )
 	{
-		block.x = LPoint[i].x * BLOCK_WIDTH;
-		block.y = LPoint[i].y * BLOCK_WIDTH;
+		block.x = SIDE_BORDER + LPoint[i].x * BLOCK_WIDTH;
+		block.y = TOP_BORDER + LPoint[i].y * BLOCK_WIDTH;
 
 		SetRenderDrawColour( 10 );
 		SDL_RenderFillRect( gRenderer, &block );
 
-		SDL_Rect rect = { (int) ( block.x + BLOCK_WIDTH * 0.1 ), (int) ( block.y + BLOCK_WIDTH * 0.1 ), BLOCK_WIDTH * 0.8, BLOCK_WIDTH * 0.8 };
+		rect = { (int) ( block.x + BLOCK_WIDTH * 0.1 ), (int) ( block.y + BLOCK_WIDTH * 0.1 ),(int) (BLOCK_WIDTH * 0.8), (int) (BLOCK_WIDTH * 0.8) };
 
-		SetRenderDrawColour( shape );
+		SetRenderDrawColour( BLACK );
 		SDL_RenderFillRect( gRenderer, &rect );
 		
 	}	
@@ -301,20 +324,54 @@ bool Tetromino::IsOutOfBoundsY()
 	return false;
 }
 
-/*
-Tetromino::Tetromino(Tetromino* t)
+int Tetromino::NumPointsInRow( int row )
 {
-	this->shape = t->shape;
-	LPoint.resize( 4 );
-
-	block = { 0, 0, BLOCK_WIDTH, BLOCK_WIDTH };
-
-	for ( int i = 0; i < t->LPoint.size(); i++ )
+	int  num = 0;
+	for ( int i = 0; i < LPoint.size(); i++ )
 	{
-		LPoint[i] = t->LPoint[i];
+		if ( LPoint[i].y == row )
+		{
+			num++;
+		}
 	}
+
+	return num;
 }
-*/
+
+void Tetromino::RemovePoint(int row)
+{
+	int pointsRemoved = 0;
+	
+	//try {
+		int i = 0;
+		while ( i < LPoint.size() )
+		{
+			if ( LPoint[i].y == row && i < LPoint.size() )
+			{
+				printf( "f" );
+				LPoint[i] = LPoint[LPoint.size() - 1];
+				LPoint.pop_back();
+			}
+			else
+			{
+				
+				i++;
+			}
+		}
+		
+	//}
+	//catch ( std::out_of_range e )
+	//{
+	//	printf( "Attempted to access vector at non existing index!" );
+	//}
+		/*
+		for ( int i = 0; i < pointsRemoved; i++ )
+		{
+			
+			LPoint.pop_back();
+		}
+		*/
+}
 
 #endif
 

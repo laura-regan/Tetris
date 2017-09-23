@@ -15,7 +15,7 @@
 #include "include\globals.h"
 #include "include\functions.h"
 #include "include\grid.h"
-//#include "include\tetromino.h"
+
 
 
 int main( int agrc, char* args[] )
@@ -30,7 +30,7 @@ int main( int agrc, char* args[] )
 		
 		Grid grid;
 
-		grid.CreateTetromino( Z );
+		grid.CreateTetromino( I );
 		
 		unsigned currentTime = SDL_GetTicks();
 		unsigned lastTime = 0;
@@ -56,10 +56,10 @@ int main( int agrc, char* args[] )
 			SDL_RenderClear( gRenderer );
 			grid.Render();
 			
-			
+			grid.RemoveFullRow();
 
 			physicsPeriod += delta;
-			if ( physicsPeriod > 350 )
+			if ( physicsPeriod > 250 )
 			{
 				grid.Physics();
 				physicsPeriod = 0;

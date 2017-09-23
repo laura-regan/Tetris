@@ -21,7 +21,7 @@ class Grid
 {
 public:
 
-	static const int BLOCK_WIDTH = SCREEN_WIDTH / GRID_WIDTH;
+	
 
 	Grid();
 
@@ -31,19 +31,15 @@ public:
 
 	void Physics();
 
-
-
 	void Input( SDL_Event e );
 
-	void FindEmptyRow();
+	void RemoveFullRow();
 
 private:
 	std::vector<Tetromino > LTetromino;
 	int numTetrominos;
 
-	Tetromino* playerTetromino;
-
-	void RemoveRow();
+	//Tetromino* playerTetromino;
 
 	bool HasCollided( int index );
 };
@@ -89,12 +85,12 @@ void Grid::Input( SDL_Event e )
 				break;
 			case SDLK_a:
 				LTetromino[numTetrominos - 1].Rotate( LEFT );
-				if ( LTetromino[numTetrominos - 1].IsOutOfBoundsX() )
+				if ( LTetromino[numTetrominos - 1].IsOutOfBoundsX() || HasCollided( numTetrominos - 1 ) )
 					LTetromino[numTetrominos - 1].Rotate( RIGHT );
 				break;
 			case SDLK_d:
 				LTetromino[numTetrominos - 1].Rotate( RIGHT );
-				if ( LTetromino[numTetrominos - 1].IsOutOfBoundsX() )
+				if ( LTetromino[numTetrominos - 1].IsOutOfBoundsX() || HasCollided( numTetrominos - 1 ) )
 					LTetromino[numTetrominos - 1].Rotate( LEFT );
 				break;
 		}
@@ -120,8 +116,12 @@ void Grid::Physics()
 				LTetromino[i].Move( UP );
 				if ( i == numTetrominos - 1 )
 				{
-					srand( time( NULL ) );
-					CreateTetromino( dist( rng ) );
+					int shape;
+					do
+					{
+						shape = dist( rng );
+					} while ( shape == LTetromino[numTetrominos - 1].GetShape() );
+					CreateTetromino( shape );
 				}
 			}
 			else if ( HasCollided( i ) )
@@ -129,8 +129,12 @@ void Grid::Physics()
 				LTetromino[i].Move( UP );
 				if ( i == numTetrominos - 1 )
 				{
-					srand( time( NULL ) );
-					CreateTetromino( dist( rng ) );
+					int shape;
+					do
+					{
+						shape = dist( rng );
+					} while ( shape == LTetromino[numTetrominos - 1].GetShape() );
+					CreateTetromino( shape );
 				}
 			}
 			else
@@ -158,16 +162,28 @@ bool Grid::HasCollided( int index )
 }
 
 
-void Grid::FindEmptyRow()
+void Grid::RemoveFullRow()
 {
+	for ( int i = GRID_HEIGHT + 1; i > 0; i-- )
+	{
+		int pointsInRow = 0;
+		for ( int j = 0; j < numTetrominos - 1; j++ )
+		{
+			pointsInRow += LTetromino[j].NumPointsInRow( i );
+		}
 
+		if ( pointsInRow >= GRID_WIDTH )
+		{
+			for ( int j = 0; j < numTetrominos - 1; j++ )
+			{
+				LTetromino[j].RemovePoint( i );
+			}
+		}
+	}	
 }
 
 
-void Grid::RemoveRow()
-{
 
-}
 
 
 
