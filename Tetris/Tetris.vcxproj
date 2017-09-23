@@ -123,7 +123,6 @@
     <ClCompile Include="functions.cpp" />
     <ClCompile Include="globals.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="src\block.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\constants.h" />

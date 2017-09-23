@@ -107,6 +107,12 @@ void SetRenderDrawColour(int colour)
 		case BLACK:
 			SDL_SetRenderDrawColor( gRenderer, 0x00, 0x00, 0x00, 0xFF );
 			break;
+		case BAGE:
+			SDL_SetRenderDrawColor( gRenderer, 255, 240, 200, 0xFF );
+			break;
+		case DARK_BAGE:
+			SDL_SetRenderDrawColor( gRenderer, 255, 220, 160, 0xFF );
+			break;
 	}
 }
 

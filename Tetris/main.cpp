@@ -30,7 +30,7 @@ int main( int agrc, char* args[] )
 		
 		Grid grid;
 
-		grid.CreateTetromino( I );
+		grid.CreateTetromino( T );
 		
 		unsigned currentTime = SDL_GetTicks();
 		unsigned lastTime = 0;
@@ -48,24 +48,18 @@ int main( int agrc, char* args[] )
 				}
 				grid.Input( e );
 			}
+
 			currentTime = SDL_GetTicks();
 			delta = currentTime - lastTime;
 			lastTime = currentTime;
 
-			SDL_SetRenderDrawColor( gRenderer, 0xFF, 0xFF, 0xFF, 0xFF );
+			SetRenderDrawColour( BAGE );
 			SDL_RenderClear( gRenderer );
 			grid.Render();
 			
-			grid.RemoveFullRow();
+			grid.RemoveFullRow();	
 
-			physicsPeriod += delta;
-			if ( physicsPeriod > 250 )
-			{
-				grid.Physics();
-				physicsPeriod = 0;
-			}
-
-			
+			grid.Physics( delta );
 
 			if ( delta < SPF*1000 )
 			{

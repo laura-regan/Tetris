@@ -1,30 +1,37 @@
 #ifndef CONSTANTS_H
 #define CONSTANTS_H
 
+#include <SDL.h>
+
 /// Frames-per-Second and Seconds-per-Frame
 const int FPS = 60;
 const double SPF = 1 / FPS;
 
 /// Window Aspect Ratio
-const int RATIO_H = 10;
-const int RATIO_W = 16;
+const int RATIO_H = 16;
+const int RATIO_W = 9;
 
 /// Window Dimensions
-const int SCREEN_WIDTH = 1280;
+const int SCREEN_WIDTH = 500;
 const int SCREEN_HEIGHT = SCREEN_WIDTH * RATIO_H / RATIO_W;
 
-static const int GRID_WIDTH = 10;
-static const int GRID_HEIGHT = 20;
+const int GRID_COLUMNS = 10;
+const int GRID_ROWS = 20;
 
-static const int SIDE_BORDER = SCREEN_WIDTH * 0.2;
-static const int TOP_BORDER = (( SCREEN_WIDTH - SIDE_BORDER * 2 ) * GRID_HEIGHT / GRID_WIDTH) / 2;
+const int LOWER_BORDER = SCREEN_HEIGHT * 0.1;
+const int UPPER_BORDER = SCREEN_HEIGHT * 0.02;
 
-static const int GRID_WIDTH_PIXELS = SCREEN_WIDTH - SIDE_BORDER * 2;
-static const int GRID_HEIGHT_PIXELS = SCREEN_HEIGHT - TOP_BORDER * 2;
+const int GRID_HEIGHT = SCREEN_HEIGHT - LOWER_BORDER - UPPER_BORDER;
 
-static const int BLOCK_WIDTH = GRID_HEIGHT_PIXELS / GRID_WIDTH;
+const int BLOCK_WIDTH = GRID_HEIGHT / GRID_ROWS;
+
+const int GRID_WIDTH = BLOCK_WIDTH * GRID_COLUMNS;
+
+const int SIDE_BORDER = ( SCREEN_WIDTH - GRID_WIDTH ) / 2;
 
 static const int GRID_BUFFER = 4;
+
+static const SDL_Rect GRID_REC = { SIDE_BORDER, UPPER_BORDER, GRID_WIDTH, GRID_HEIGHT };
 
 static enum COLOUR
 {
@@ -37,6 +44,8 @@ static enum COLOUR
 	PURPLE,
 	WHITE,
 	BLACK,
+	BAGE,
+	DARK_BAGE,
 	NUMBER_COLOURS
 };
 
