@@ -14,13 +14,16 @@
 #include "tetromino.h"
 
 
-std::default_random_engine rng;
+std::random_device rd;
+std::mt19937 mt( rd() );
 std::uniform_int_distribution<int> dist( 0, 6 );
 
 class Grid
 {
 public:
-
+	int tetrominoFallSpeedStantard = 200;
+	int tetrominoFallSpeed1 = 150;
+	
 	Grid();
 
 	void CreateTetromino( int colour );
@@ -33,9 +36,13 @@ public:
 
 	void RemoveFullRow();
 
+	void FragmentTetrominos();
+
 private:
 	std::vector<Tetromino > LTetromino;
 	int numTetrominos;
+
+	bool IsFreeToFall( int index );
 
 	bool HasCollided( int index );
 };
@@ -94,17 +101,33 @@ void Grid::Input( SDL_Event e )
 				if ( LTetromino[numTetrominos - 1].IsOutOfBoundsX() || HasCollided( numTetrominos - 1 ) )
 					LTetromino[numTetrominos - 1].Rotate( LEFT );
 				break;
+			case SDLK_SPACE:
+				tetrominoFallSpeed1 = 30;
+				break;
 		}
 	}
+
+	if ( e.type == SDL_KEYUP )
+	{
+		switch ( e.key.keysym.sym )
+		{
+			case SDLK_SPACE:
+				tetrominoFallSpeed1 = 150;
+				break;
+		}
+	}
+
 }
 
 
 void Grid::Physics( int delta )
 {
-	static int timePassed = 0;
-	timePassed += delta;
+	static int timePassed1 = 0;
+	static int timePassed2 = 0;
+	timePassed1 += delta;
+	timePassed2 += delta;
 
-	if ( timePassed > 200 )
+	if ( timePassed1 > tetrominoFallSpeedStantard )
 	{
 		std::vector<bool> hasMoved;
 		if ( numTetrominos >= hasMoved.capacity() )
@@ -112,47 +135,61 @@ void Grid::Physics( int delta )
 			hasMoved.resize( numTetrominos * 2 );
 		}
 
-		for ( int i = 0; i < numTetrominos; i++ )
+		for ( int k = 0; k < 10; k++ )
 		{
-			if ( !hasMoved[i] )
+			for ( int i = 0; i < numTetrominos - 1; i++ )
 			{
-				LTetromino[i].Move( DOWN );
-				if ( LTetromino[i].IsOutOfBoundsY() )
+				if ( !hasMoved[i] )
 				{
-					LTetromino[i].Move( UP );
-					if ( i == numTetrominos - 1 )
+					LTetromino[i].Move( DOWN );
+					if ( !IsFreeToFall( i ) )
 					{
-						int shape;
-						do
-						{
-							shape = dist( rng );
-						} while ( shape == LTetromino[numTetrominos - 1].GetShape() );
-						CreateTetromino( shape );
+						LTetromino[i].Move( UP );
 					}
-				}
-				else if ( HasCollided( i ) )
-				{
-					LTetromino[i].Move( UP );
-					if ( i == numTetrominos - 1 )
+					else
 					{
-						int shape;
-						do
-						{
-							shape = dist( rng );
-						} while ( shape == LTetromino[numTetrominos - 1].GetShape() );
-						CreateTetromino( shape );
+						hasMoved[i] = true;
 					}
-				}
-				else
-				{
-					hasMoved[i] = true;
 				}
 			}
 		}
-
 		hasMoved.clear();
-		timePassed = 0;
+		timePassed1 = 0;
 	}
+
+	if ( timePassed2 > tetrominoFallSpeed1 )
+	{
+		LTetromino[numTetrominos - 1].Move( DOWN );
+		if ( !IsFreeToFall( numTetrominos - 1 ) )
+		{
+			LTetromino[numTetrominos - 1].Move( UP );
+
+			int shape;
+			do
+			{
+				shape = dist( mt );
+			} while ( shape == LTetromino[numTetrominos - 1].GetShape() );
+			CreateTetromino( shape );
+		}
+
+		timePassed2 = 0;
+	}
+
+}
+
+
+bool Grid::IsFreeToFall( int index )
+{
+	if ( LTetromino[index].IsOutOfBoundsY() )
+	{
+		return false;
+	}
+	else if ( HasCollided( index ) )
+	{
+		return false;
+	}
+
+	return true;
 }
 
 
@@ -191,6 +228,25 @@ void Grid::RemoveFullRow()
 }
 
 
+void Grid::FragmentTetrominos()
+{
+	for ( int i = 0; i < numTetrominos - 1; i++ )
+	{
+		//try
+		//{
+			Tetromino* t = LTetromino[i].Fragment();
+		//}
+		//catch (NullptrExce )
+		if ( t != NULL )
+		{
+			if ( LTetromino.capacity() <= numTetrominos + 1 )
+			{
+				LTetromino.resize( numTetrominos * 2 );
+			}
+			LTetromino.insert( LTetromino.end() - 1, *t );
+		}
+	}
+}
 
 
 

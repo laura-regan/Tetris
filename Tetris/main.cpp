@@ -30,12 +30,11 @@ int main( int agrc, char* args[] )
 		
 		Grid grid;
 
-		grid.CreateTetromino( T );
+		grid.CreateTetromino( dist(mt) );
 		
 		unsigned currentTime = SDL_GetTicks();
 		unsigned lastTime = 0;
 		unsigned delta;
-		unsigned physicsPeriod = 0;
 
 		bool quit = false;
 		while ( !quit )
@@ -58,6 +57,8 @@ int main( int agrc, char* args[] )
 			grid.Render();
 			
 			grid.RemoveFullRow();	
+
+			grid.FragmentTetrominos();
 
 			grid.Physics( delta );
 

@@ -108,14 +108,14 @@ public:
 		return shape;
 	}
 
-	std::vector<Point> GetPoints()
-	{
-		return LPoint;
-	}
 
-	/// Query and Modify shape functions
+	/// Query and Modify Tetromino functions
 	int NumPointsInRow( int row );
 	void RemovePoint( int index );
+	void Copy();
+	Tetromino* Fragment();
+	bool HasNeighbours( int index );
+
 
 private:
 	int shape;
@@ -219,7 +219,7 @@ void Tetromino::Render()
 	{
 		SDL_Rect block = { 0, 0, BLOCK_WIDTH, BLOCK_WIDTH };
 		block.x = 0.025 * BLOCK_WIDTH + GRID_REC.x + ( LPoint[i].x + 0.05 )* BLOCK_WIDTH;
-		block.y = 0.025 * BLOCK_WIDTH + GRID_REC.y + ( LPoint[i].y + 0.05)* BLOCK_WIDTH ;
+		block.y = 0.025 * BLOCK_WIDTH + GRID_REC.y + ( LPoint[i].y + 0.05 )* BLOCK_WIDTH;
 
 		block.w *= 0.9;
 		block.h *= 0.9;
@@ -350,6 +350,58 @@ void Tetromino::RemovePoint( int row )
 		}
 	}
 }
+
+
+Tetromino* Tetromino::Fragment()
+{
+	Tetromino* t = new Tetromino();
+
+	if ( LPoint.size() > 1 && LPoint.size() < 4 )
+	{
+		int i = 0;
+		while ( i < LPoint.size() && !HasNeighbours( i ) )
+		{
+			i++;
+		}
+		if ( i < LPoint.size() )
+		{
+			t->shape = this->shape;
+			t->LPoint.resize( 1 );
+			t->LPoint[0] = this->LPoint[i];
+			printf( "f" );
+
+			this->LPoint[i] = this->LPoint[LPoint.size() - 1];
+			this->LPoint.pop_back();
+		}
+	}
+	else
+	{
+		t = NULL;
+	}
+
+	return t;
+}
+
+
+bool Tetromino::HasNeighbours( int index )
+{
+	/// Neighbour is an adjacent point (Tetromino block)
+
+	for ( int i = 0; i < LPoint.size(); i++ )
+	{
+		int a = LPoint[index].x - LPoint[i].x;
+		int b = LPoint[index].y - LPoint[i].y;
+		
+		if ( a * b == 0 && abs( a + b ) == 1 )
+		{
+			return true;
+		}
+	}
+	
+	return false;
+}
+
+
 
 #endif
 
