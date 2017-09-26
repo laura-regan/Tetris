@@ -15,8 +15,8 @@ const int RATIO_W = 9;
 const int SCREEN_WIDTH = 500;
 const int SCREEN_HEIGHT = SCREEN_WIDTH * RATIO_H / RATIO_W;
 
-const int GRID_COLUMNS = 10;
-const int GRID_ROWS = 20;
+const int GRID_COLUMNS = 15;
+const int GRID_ROWS = 30;
 
 const int LOWER_BORDER = SCREEN_HEIGHT * 0.1;
 const int UPPER_BORDER = SCREEN_HEIGHT * 0.02;

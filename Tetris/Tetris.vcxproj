@@ -122,7 +122,9 @@
   <ItemGroup>
     <ClCompile Include="functions.cpp" />
     <ClCompile Include="globals.cpp" />
+    <ClCompile Include="grid.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="tetromino.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\constants.h" />

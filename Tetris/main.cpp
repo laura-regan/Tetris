@@ -26,16 +26,14 @@ int main( int agrc, char* args[] )
 	}
 	else
 	{
-		SDL_Event e;
-		
 		Grid grid;
-
-		grid.CreateTetromino( dist(mt) );
+		grid.CreateTetromino( T);
 		
 		unsigned currentTime = SDL_GetTicks();
 		unsigned lastTime = 0;
 		unsigned delta;
 
+		SDL_Event e;
 		bool quit = false;
 		while ( !quit )
 		{
@@ -54,17 +52,19 @@ int main( int agrc, char* args[] )
 
 			SetRenderDrawColour( BAGE );
 			SDL_RenderClear( gRenderer );
+
+			grid.RemoveFullRow();
+			grid.FragmentTetrominos();
+			grid.ClearDeadTetrominos();
+			grid.Physics( delta );
+
+
 			grid.Render();
 			
-			grid.RemoveFullRow();	
-
-			grid.FragmentTetrominos();
-
-			grid.Physics( delta );
 
 			if ( delta < SPF*1000 )
 			{
-				SDL_Delay( SPF - delta );
+				//SDL_Delay( SPF - delta );
 			}
 
 			SDL_RenderPresent( gRenderer );
