@@ -36,6 +36,15 @@
     <ClCompile Include="grid.cpp">
       <Filter>Source Files\src</Filter>
     </ClCompile>
+    <ClCompile Include="texture.cpp">
+      <Filter>Source Files\src</Filter>
+    </ClCompile>
+    <ClCompile Include="timer.cpp">
+      <Filter>Source Files\src</Filter>
+    </ClCompile>
+    <ClCompile Include="grid2.cpp">
+      <Filter>Source Files\src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\globals.h">
@@ -51,6 +60,15 @@
       <Filter>Header Files\include</Filter>
     </ClInclude>
     <ClInclude Include="include\grid.h">
+      <Filter>Header Files\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\texture.h">
+      <Filter>Header Files\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\timer.h">
+      <Filter>Header Files\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\grid2.h">
       <Filter>Header Files\include</Filter>
     </ClInclude>
   </ItemGroup>

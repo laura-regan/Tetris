@@ -1,3 +1,4 @@
+/*
 #include "include\grid.h"
 
 #include <time.h>
@@ -10,7 +11,7 @@ std::uniform_int_distribution<int> dist( 0, 6 );
 
 Grid::Grid()
 {
-	LTetromino.resize( GRID_WIDTH * GRID_HEIGHT * 2 );
+	LTetromino.resize( 300 );
 	int numTetrominos = 0;
 }
 
@@ -19,6 +20,7 @@ void Grid::CreateTetromino( int shape )
 {
 	LTetromino[numTetrominos] = Tetromino( shape, GRID_COLUMNS / 2, -GRID_BUFFER );
 	numTetrominos++;
+	printf( "%d\n", numTetrominos );
 }
 
 
@@ -219,3 +221,5 @@ void Grid::ClearDeadTetrominos()
 		}
 	}
 }
+
+*/

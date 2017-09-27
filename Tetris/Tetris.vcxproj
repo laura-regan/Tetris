@@ -123,15 +123,21 @@
     <ClCompile Include="functions.cpp" />
     <ClCompile Include="globals.cpp" />
     <ClCompile Include="grid.cpp" />
+    <ClCompile Include="grid2.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="tetromino.cpp" />
+    <ClCompile Include="texture.cpp" />
+    <ClCompile Include="timer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\constants.h" />
     <ClInclude Include="include\functions.h" />
     <ClInclude Include="include\globals.h" />
     <ClInclude Include="include\grid.h" />
+    <ClInclude Include="include\grid2.h" />
     <ClInclude Include="include\tetromino.h" />
+    <ClInclude Include="include\texture.h" />
+    <ClInclude Include="include\timer.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

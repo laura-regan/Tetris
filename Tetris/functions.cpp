@@ -8,7 +8,7 @@
 
 #include "include\globals.h"
 #include "include\constants.h"
-
+#include "include\texture.h"
 
 
 bool Init()
@@ -40,15 +40,15 @@ bool Init()
 			{
 				SDL_SetRenderDrawColor( gRenderer, 0x00, 0x00, 0x00, 0xFF );
 
-				int initFlags = IMG_INIT_PNG;
-				if ( !( IMG_Init( initFlags ) & IMG_INIT_PNG ) )
+				int imgFlags = IMG_INIT_PNG;
+				if ( !( IMG_Init( imgFlags ) & IMG_INIT_PNG ) )
 				{
 					printf( "Could not start SDL_image! SDL_image Error: %s\n", IMG_GetError() );
 					success = false;
 				}
 				else
 				{
-					if ( TTF_Init() != 0 )
+					if ( TTF_Init() == -1 )
 					{
 						printf( "Could not start SDL_ttf! SDL_ttf Error: %s\n", TTF_GetError() );
 						success = false;
@@ -62,8 +62,39 @@ bool Init()
 }
 
 
+bool LoadMedia()
+{
+	bool success = true;
+
+	gFont = TTF_OpenFont( "resources/fonts/OpenSans-Bold.ttf", 28 );
+	if ( gFont == NULL )
+	{
+		printf( "Failed to load font! SDL_ttf Error: %s\n", TTF_GetError() );
+		success = false;
+	}
+	else
+	{
+		/*
+		SDL_Color textColor = { 0, 0 ,0 };
+		if ( !textureName.LoadFromRenderedText( "Something something" ) )
+		{
+			printf( "Failed to render texture!\n" );
+			success = false;
+		}
+		*/
+	}
+
+	return success;
+}
+
+
 void Close()
 {
+	TTF_CloseFont( gFont );
+	gFont = NULL;
+
+	gFPSTexture.Free();
+
 	SDL_DestroyRenderer( gRenderer );
 	SDL_DestroyWindow( gWindow );
 	gRenderer = NULL;

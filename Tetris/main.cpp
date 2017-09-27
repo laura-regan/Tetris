@@ -11,10 +11,13 @@
 
 #include <stdio.h>
 #include <String>
+#include <sstream>
 
 #include "include\globals.h"
 #include "include\functions.h"
-#include "include\grid.h"
+#include "include\grid2.h"
+#include "include\timer.h"
+#include "include\texture.h"
 
 
 
@@ -26,48 +29,68 @@ int main( int agrc, char* args[] )
 	}
 	else
 	{
-		Grid grid;
-		grid.CreateTetromino( T);
-		
-		unsigned currentTime = SDL_GetTicks();
-		unsigned lastTime = 0;
-		unsigned delta;
-
-		SDL_Event e;
-		bool quit = false;
-		while ( !quit )
+		if ( !LoadMedia() )
 		{
-			while ( SDL_PollEvent( &e ) > 0 )
-			{
-				if ( e.type == SDL_QUIT )
-				{
-					quit = true;
-				}
-				grid.Input( e );
-			}
+			printf( "Failed to load media!\n" );
+		}
+		else
+		{
+			Grid grid;
+			grid.CreateTetromino( T );
 
-			currentTime = SDL_GetTicks();
-			delta = currentTime - lastTime;
-			lastTime = currentTime;
+			SDL_Color textColor = { 0,0,0 };
 
-			SetRenderDrawColour( BAGE );
-			SDL_RenderClear( gRenderer );
+			Timer fpsTimer;
+			float averageFPS = 0;
+			unsigned countedFrames = 0;
 
-			grid.RemoveFullRow();
-			grid.FragmentTetrominos();
-			grid.ClearDeadTetrominos();
-			grid.Physics( delta );
-
-
-			grid.Render();
+			std::stringstream fpsText;
+			
 			
 
-			if ( delta < SPF*1000 )
-			{
-				//SDL_Delay( SPF - delta );
-			}
 
-			SDL_RenderPresent( gRenderer );
+			unsigned pastTicks = 0;
+
+			fpsTimer.Start();
+
+			SDL_Event e;
+			bool quit = false;
+			while ( !quit )
+			{
+				while ( SDL_PollEvent( &e ) > 0 )
+				{
+					if ( e.type == SDL_QUIT )
+					{
+						quit = true;
+					}
+					grid.Input( e );
+				}
+				
+				
+
+				SetRenderDrawColour( BAGE );
+				SDL_RenderClear( gRenderer );
+
+				//grid.RemoveFullRow();
+				//grid.FragmentTetrominos();
+				//grid.ClearDeadTetrominos();
+				grid.Physics( fpsTimer.GetTicks() - pastTicks );
+				pastTicks = fpsTimer.GetTicks();
+
+				grid.Render();
+
+
+				averageFPS = countedFrames / ( fpsTimer.GetTicks() / 1000.f );
+				fpsText.str( "" );
+				fpsText << "" << averageFPS;
+				gFPSTexture.LoadFromRenderedText( fpsText.str().c_str(), textColor );
+
+				gFPSTexture.Render(0,0);
+
+				SDL_RenderPresent( gRenderer );
+				countedFrames++;
+				
+			}
 		}
 	}
 
