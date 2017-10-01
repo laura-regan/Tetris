@@ -95,12 +95,12 @@ void Grid::Physics( int delta )
 
 	if ( timePassed1 > tetrominoStaticFallSpeed )
 	{
-		/*
+		
 		if ( LTetromino.size() >= hasMoved.capacity() )
 		{
 			hasMoved.resize( LTetromino.size() * 2 );
 		}
-		*/
+		
 		for ( int k = 0; k < 1; k++ )
 		{
 			for ( int i = 0; i < LTetromino.size() - 1; i++ )

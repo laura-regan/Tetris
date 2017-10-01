@@ -1,4 +1,4 @@
-/*
+
 #ifndef GRID_H
 #define GRID_H
 
@@ -14,11 +14,11 @@
 class Grid
 {
 public:
-	int tetrominoStaticFallSpeed = 10;
+	int tetrominoStaticFallSpeed = 70;
 	
-	int tetrominoDynamicFallSpeed1 = 350;
+	int tetrominoDynamicFallSpeed1 = 200;
 	int tetrominoDynamicFallSpeed2 = 30;
-	int tetrominoDynamicFallSpeed = 350;
+	int tetrominoDynamicFallSpeed = 200;
 
 	Grid();
 
@@ -38,7 +38,8 @@ public:
 
 private:
 	std::vector<Tetromino > LTetromino;
-	int numTetrominos;
+	std::vector<Tetromino>::iterator it;
+	
 
 	bool IsFreeToFall( int index );
 
@@ -50,4 +51,3 @@ private:
 #endif
 
 
-*/

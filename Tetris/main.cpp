@@ -15,9 +15,10 @@
 
 #include "include\globals.h"
 #include "include\functions.h"
-#include "include\grid2.h"
+#include "include\grid.h"
 #include "include\timer.h"
 #include "include\texture.h"
+#include "include\clock.h"
 
 
 
@@ -36,7 +37,7 @@ int main( int agrc, char* args[] )
 		else
 		{
 			Grid grid;
-			grid.CreateTetromino( T );
+			grid.CreateTetromino( I );
 
 			SDL_Color textColor = { 0,0,0 };
 
@@ -46,7 +47,9 @@ int main( int agrc, char* args[] )
 
 			std::stringstream fpsText;
 			
-			
+			Clock clock;
+			clock.Start();
+
 
 
 			unsigned pastTicks = 0;
@@ -65,20 +68,28 @@ int main( int agrc, char* args[] )
 					}
 					grid.Input( e );
 				}
-				
+				if ( averageFPS > 2000 )
+				{
+					averageFPS = 0;
+				}
 				
 
 				SetRenderDrawColour( BAGE );
 				SDL_RenderClear( gRenderer );
 
-				//grid.RemoveFullRow();
-				//grid.FragmentTetrominos();
-				//grid.ClearDeadTetrominos();
+				grid.RemoveFullRow();
+				
+				grid.FragmentTetrominos();
+				grid.ClearDeadTetrominos();
+
+				
+				
 				grid.Physics( fpsTimer.GetTicks() - pastTicks );
+				
 				pastTicks = fpsTimer.GetTicks();
 
 				grid.Render();
-
+				clock.Render();
 
 				averageFPS = countedFrames / ( fpsTimer.GetTicks() / 1000.f );
 				fpsText.str( "" );
@@ -89,6 +100,7 @@ int main( int agrc, char* args[] )
 
 				SDL_RenderPresent( gRenderer );
 				countedFrames++;
+				
 				
 			}
 		}

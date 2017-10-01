@@ -122,6 +122,7 @@ private:
 
 	int shape;
 	std::vector<Point> LPoint;
+	std::vector<Point>::iterator it;
 };
 
 

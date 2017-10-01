@@ -215,19 +215,16 @@ int Tetromino::NumPointsInRow( int row )
 
 void Tetromino::RemovePoint( int row )
 {
-	int pointsRemoved = 0;
-
-	int i = 0;
-	while ( i < LPoint.size() )
+	
+	for ( it = LPoint.begin(); it != LPoint.end(); )
 	{
-		if ( LPoint[i].y == row && i < LPoint.size() )
+		if ( (*it).y == row )
 		{
-			LPoint[i] = LPoint[LPoint.size() - 1];
-			LPoint.pop_back();
+			it = LPoint.erase( it );
 		}
 		else
 		{
-			i++;
+			it++;
 		}
 	}
 }
@@ -235,7 +232,7 @@ void Tetromino::RemovePoint( int row )
 
 Tetromino* Tetromino::Fragment()
 {
-	Tetromino* t = new Tetromino();
+	Tetromino* t = NULL;
 
 	if ( LPoint.size() > 1 && LPoint.size() < 4 )
 	{
@@ -246,19 +243,16 @@ Tetromino* Tetromino::Fragment()
 		}
 		if ( i < LPoint.size() )
 		{
+			t = new Tetromino();
 			t->shape = this->shape;
 			t->LPoint.resize( 1 );
 			t->LPoint[0] = this->LPoint[i];
-			printf( "f" );
-
+			
 			this->LPoint[i] = this->LPoint[LPoint.size() - 1];
-			this->LPoint.pop_back();
+			this->LPoint.pop_back();	
 		}
 	}
-	else
-	{
-		t = NULL;
-	}
+	
 
 	return t;
 }
@@ -268,15 +262,19 @@ bool Tetromino::HasNeighbours( int index )
 {
 	/// Neighbour is an adjacent point (Tetromino block)
 
-	for ( int i = 0; i < LPoint.size(); i++ )
+	int i = 0;
+	while ( i < LPoint.size() )
 	{
+
 		int a = LPoint[index].x - LPoint[i].x;
 		int b = LPoint[index].y - LPoint[i].y;
 
-		if ( a * b == 0 && abs( a + b ) == 1 )
+		if ( a * b == 0 && abs( a ) <= 1 && abs(b) <= 1 && index != i )
 		{
 			return true;
 		}
+
+		i++;
 	}
 
 	return false;
